@@ -28,7 +28,7 @@
         .success-icon {
             width: 100px;
             height: 100px;
-            background-color: #19be98 ; 
+            background-color: #4CAF93; 
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -42,7 +42,7 @@
 
         .success-icon::before {
             content: '\2714'; 
-            font-size: 60px;
+            font-size: 60px; 
             font-weight: bold;
         }
 
@@ -59,14 +59,26 @@
         }
 
         a {
-            color: #6c5ce7;
+            color: #6c5ce7; 
             text-decoration: none;
             font-weight: bold;
             transition: color 0.3s;
         }
 
         a:hover {
-            color: #4b63e6;
+            color: #4b63e6; 
+        }
+
+        .login-container {
+            margin-top: 20px;
+            padding: 10px;
+            background: linear-gradient(135deg, #6c5ce7, #74b9ff); 
+            border-radius: 6px;
+            color: #FFFFFF; 
+        }
+
+        .login-container a {
+            color: #FFFFFF; 
         }
     </style>
 </head>
@@ -76,8 +88,11 @@
     <div class="success-icon">
     </div>
     <h2>Link de Recuperação Enviado</h2>
-    <p><i>Um link para redefinir sua senha foi enviado para o e-mail fornecido.</i></p>
-    <p><a href="index.html">Voltar para a tela de login</a></p>
+    <p><i>Um link para redefinir sua senha foi enviado para o e-mail fornecido.</i></p> 
+    
+    <div class="login-container">
+        <p><a href="index.html">VOLTAR PARA A TELA DE LOGIN</a></p>
+    </div>
 </div>
 
 </body>
