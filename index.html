@@ -4,82 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciador de Senhas</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6c5ce7, #74b9ff);
+            min-height: 100vh;
             margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: #343a40;
-            color: white;
-            padding: 20px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
         }
 
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
+        .logo-space {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 30px;
+            margin-right: 20px;
+        }
+
+        .logo-space img {
+            width: 350px;
+            height: auto;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 25px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            text-align: left;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
         }
 
         input[type="text"],
         input[type="password"] {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: box-shadow 0.3s;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.7);
         }
 
         button {
-            background-color: #007bff;
-            color: white;
+            background: linear-gradient(135deg, #6c5ce7, #74b9ff);
+            color: #ffffff;
             border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
+            padding: 12px 20px;
+            border-radius: 6px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
             width: 100%;
+            margin-top: 20px;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
         }
 
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
+        a {
+            color: #6c5ce7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #4b63e6;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Gerenciador de Senhas</h1>
-</header>
-
 <div class="container">
-    <h2>Faça login</h2>
+    <div class="logo-space">
+        <img src="logo-passcode.png" alt="Logo do Gerenciador de Senhas">
+    </div>
+    <h2>Login</h2>
     <div class="form-group">
         <label for="email">E-mail</label>
         <input type="text" id="email" placeholder="Digite seu e-mail">
@@ -89,14 +117,10 @@
         <input type="password" id="senha" placeholder="Digite sua senha">
     </div>
     <button type="submit">Entrar</button>
-    <p style="text-align: center; margin-top: 10px;">
+    <p style="text-align: center; margin-top: 20px;">
         <a href="#">Esqueceu sua senha?</a>
     </p>
 </div>
-
-<footer>
-    <p>&copy; 2024 Gerenciador de Senhas. Residência.</p>
-</footer>
 
 </body>
 </html>
