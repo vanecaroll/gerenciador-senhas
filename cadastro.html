@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Gerenciador de Senhas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6c5ce7, #74b9ff, #a29bfe);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 470px; 
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .logo-space {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            margin-left: 16px;
+        }
+
+        .logo-space img {
+            width: 400px;
+            height: auto;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: box-shadow 0.3s;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.7);
+        }
+
+        button {
+            background: linear-gradient(135deg, #6c5ce7, #74b9ff);
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+        }
+
+        a {
+            color: #6c5ce7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #4b63e6;
+        }
+
+        /* Botão de Cadastro */
+        .cadastro-btn {
+            background: #ffffff;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            padding: 12px 20px;
+            font-weight: normal;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s, color 0.3s, border 0.3s;
+            font-size: 16px;
+            color: #6c5ce7;
+        }
+
+        .cadastro-btn:hover {
+            background: #ffffff;
+            color: #ffffff;
+            border: 1px solid transparent;
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+        }
+
+        .cadastro-btn a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .form-group, button {
+            margin-bottom: 15px;
+        }
+
+        /* Mensagem de erro e sucesso */
+        .message {
+            font-size: 16px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-space">
+        <img src="logo-passcode.png" alt="Logo do Gerenciador de Senhas">
+    </div>
+    <h2>Cadastro</h2>
+    
+    <div class="form-group">
+        <label for="nome">Nome Completo</label>
+        <input type="text" id="nome" placeholder="Digite seu nome completo">
+    </div>
+    
+    <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" placeholder="Digite seu e-mail">
+    </div>
+    
+    <div class="form-group">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" placeholder="Digite sua senha">
+    </div>
+    
+    <div class="form-group">
+        <label for="confirmar-senha">Confirmar Senha</label>
+        <input type="password" id="confirmar-senha" placeholder="Confirme sua senha">
+    </div>
+    
+    <button type="button" onclick="validarCadastro()">CADASTRAR</button>
+    
+    <!-- Botão estilizado de "Já tem uma conta?" -->
+    <button class="cadastro-btn"><a href="index.html">Já tem uma conta? Faça login</a></button>
+
+    <!-- Mensagem de sucesso ou erro -->
+    <div id="message" class="message"></div>
+</div>
+
+<script>
+    function validarCadastro() {
+        // Obtendo os valores dos campos
+        const nome = document.getElementById('nome').value;
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+        const confirmarSenha = document.getElementById('confirmar-senha').value;
+        const messageDiv = document.getElementById('message');
+
+        // Verificando se todos os campos foram preenchidos
+        if (!nome || !email || !senha || !confirmarSenha) {
+            messageDiv.textContent = "Por favor, preencha todos os campos!";
+            messageDiv.className = "message error"; // Aplica a classe de erro
+            messageDiv.style.display = "block";
+            return;
+        }
+
+        // Verificando se as senhas coincidem
+        if (senha !== confirmarSenha) {
+            messageDiv.textContent = "As senhas não coincidem. Tente novamente.";
+            messageDiv.className = "message error"; // Aplica a classe de erro
+            messageDiv.style.display = "block";
+            return;
+        }
+
+        // Se tudo estiver correto, exibe a mensagem de sucesso
+        messageDiv.textContent = "Cadastro efetuado com sucesso!";
+        messageDiv.className = "message success"; // Aplica a classe de sucesso
+        messageDiv.style.display = "block";
+
+        // Pausa de 2 segundos antes de redirecionar
+        setTimeout(function() {
+            window.location.href = "index.html"; // Redireciona para a página de login
+        }, 2000); // 2000 milissegundos = 2 segundos
+    }
+</script>
+
+</body>
+</html>

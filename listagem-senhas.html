@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Senhas - Listagem</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6c5ce7, #74b9ff, #a29bfe);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 470px; 
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            height: auto; 
+            max-height: 550px; 
+            overflow: auto; 
+        }
+
+        .logo-space {
+            display: flex;
+            justify-content: space-between; /* Espaço entre logo e botão */
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .logo-space img {
+            width: 280px;
+            height: auto;
+        }
+
+        .btn-nova-senha {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-nova-senha:hover {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .password-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        .password-table th,
+        .password-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .password-table th {
+            background-color: #6c5ce7;
+            color: white;
+        }
+
+        .password-table td {
+            background-color: #f9f9f9;
+        }
+
+        .password-table tr:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+
+        button {
+            background: linear-gradient(135deg, #6c5ce7, #74b9ff);
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+        }
+
+        a {
+            color: #6c5ce7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #4b63e6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-space">
+        <img src="logo-passcode.png" alt="Logo do Gerenciador de Senhas">
+        <button class="btn-nova-senha" onclick="window.location.href='nova-senha.html'">+ Nova Senha</button> <!-- Botão de nova senha -->
+    </div>
+    <h2>Listagem de Senhas</h2>
+    <table class="password-table" id="senha-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Senha</th>
+                <th>Base</th>
+                <th>Data de Criação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- As senhas serão inseridas aqui via JavaScript -->
+        </tbody>
+    </table>
+
+    <button onclick="window.location.href='index.html'">Voltar para a Página Inicial</button>
+</div>
+
+<script>
+    // Função para carregar as senhas da API
+    async function carregarSenhas() {
+        try {
+            // Realiza a requisição para a API que retorna as senhas em formato JSON
+            const response = await fetch('/api/senhas');
+            
+            if (!response.ok) {
+                throw new Error('Erro ao carregar as senhas');
+            }
+            
+            // Converte a resposta em JSON
+            const senhas = await response.json();
+            
+            // Obtém o corpo da tabela onde as senhas serão inseridas
+            const tabela = document.getElementById('senha-table').getElementsByTagName('tbody')[0];
+            
+            // Itera sobre as senhas e as insere na tabela
+            senhas.forEach(senha => {
+                const row = tabela.insertRow();
+                row.innerHTML = `
+                    <td>${senha.id}</td>
+                    <td>${senha.senha}</td>
+                    <td>${senha.base}</td>
+                    <td>${senha.data_criacao}</td>
+                `;
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    // Carrega as senhas quando a página é carregada
+    window.onload = carregarSenhas;
+</script>
+
+</body>
+</html>

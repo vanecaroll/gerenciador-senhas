@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperação de Senha Enviada</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6c5ce7, #74b9ff, #a29bfe);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background-color: #4CAF93; 
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 50px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .success-icon::before {
+            content: '\2714'; 
+            font-size: 60px; 
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #6c5ce7; 
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #4b63e6; 
+        }
+
+        .login-container {
+            margin-top: 20px;
+            padding: 10px;
+            background: linear-gradient(135deg, #6c5ce7, #74b9ff); 
+            border-radius: 6px;
+            color: #FFFFFF; 
+        }
+
+        .login-container a {
+            color: #FFFFFF; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="success-icon">
+    </div>
+    <h2>Link de Recuperação Enviado</h2>
+    <p><i>Um link para redefinir sua senha foi enviado para o e-mail fornecido.</i></p> 
+    
+    <div class="login-container">
+        <p><a href="index.html">VOLTAR PARA A TELA DE LOGIN</a></p>
+    </div>
+</div>
+
+</body>
+</html>

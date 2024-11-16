@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Senhas - Nova Senha</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6c5ce7, #74b9ff, #a29bfe);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 470px; 
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        
+        .logo-space {
+            display: flex;
+            justify-content: center; 
+            margin-right: 20px ;
+            margin-bottom: 20px; 
+        }
+
+        .logo-space img {
+            width: 400px; 
+            height: auto;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: box-shadow 0.3s;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.7);
+        }
+
+        button {
+            background: linear-gradient(135deg, #6c5ce7, #74b9ff);
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+        }
+
+        a {
+            color: #6c5ce7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #4b63e6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-space">
+        <img src="logo-passcode.png" alt="Logo do Gerenciador de Senhas">
+    </div>
+    <h2>Nova Senha</h2>
+
+    <form id="form-nova-senha" action="/gerar-senha" method="POST">
+        <div class="form-group">
+            <label for="base">Base da Senha (opcional)</label>
+            <input type="text" id="base" name="base" placeholder="Digite uma base para a senha">
+        </div>
+        
+        <div class="form-group">
+            <label for="quantidade">Quantidade de Caracteres</label>
+            <input type="number" id="quantidade" name="quantidade" value="10" min="1" max="30" required>
+        </div>
+
+        <button type="submit">Gerar Senha</button>
+    </form>
+</div>
+
+<script>
+    // Certificando-se de que o formulário envia os dados corretos
+    document.getElementById('form-nova-senha').addEventListener('submit', function(event) {
+        const base = document.getElementById('base').value.trim();
+        const quantidade = document.getElementById('quantidade').value;
+
+        // Se a base for vazia, o sistema deve gerar uma senha aleatória
+        if (!base) {
+            document.getElementById('base').value = '';  // Deixe o campo base vazio
+        }
+
+        if (!quantidade || quantidade <= 0) {
+            event.preventDefault(); // Impede o envio se a quantidade for inválida
+            alert("A quantidade de caracteres deve ser um número positivo.");
+        }
+    });
+</script>
+
+</body>
+</html>
