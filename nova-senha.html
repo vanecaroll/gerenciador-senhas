@@ -25,7 +25,6 @@
             text-align: center;
         }
 
-        
         .logo-space {
             display: flex;
             justify-content: center; 
@@ -108,7 +107,7 @@
     </div>
     <h2>Nova Senha</h2>
 
-    <form id="form-nova-senha" action="/gerar-senha" method="POST">
+    <form id="form-nova-senha">
         <div class="form-group">
             <label for="base">Base da Senha (opcional)</label>
             <input type="text" id="base" name="base" placeholder="Digite uma base para a senha">
@@ -124,20 +123,35 @@
 </div>
 
 <script>
-    // Certificando-se de que o formulário envia os dados corretos
+    // Função para gerar a senha aleatória
+    function gerarSenha(base, quantidade) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=';
+        let senha = base || '';
+        for (let i = senha.length; i < quantidade; i++) {
+            senha += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return senha;
+    }
+
     document.getElementById('form-nova-senha').addEventListener('submit', function(event) {
+        event.preventDefault();
+
         const base = document.getElementById('base').value.trim();
         const quantidade = document.getElementById('quantidade').value;
 
-        // Se a base for vazia, o sistema deve gerar uma senha aleatória
-        if (!base) {
-            document.getElementById('base').value = '';  // Deixe o campo base vazio
-        }
+        const novaSenha = gerarSenha(base, parseInt(quantidade));
 
-        if (!quantidade || quantidade <= 0) {
-            event.preventDefault(); // Impede o envio se a quantidade for inválida
-            alert("A quantidade de caracteres deve ser um número positivo.");
-        }
+        let senhas = JSON.parse(localStorage.getItem('senhas')) || [];
+        const novaSenhaObj = {
+            id: senhas.length + 1,
+            senha: novaSenha,
+            base: base || 'Nenhuma base',
+            data_criacao: new Date().toLocaleString()
+        };
+        senhas.push(novaSenhaObj);
+        localStorage.setItem('senhas', JSON.stringify(senhas));
+
+        window.location.href = 'listagem-senhas.html';
     });
 </script>
 
