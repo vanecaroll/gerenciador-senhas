@@ -15,8 +15,8 @@ app = Flask(__name__)
 class PassGen:
     def __init__(self):
         # Conectar ao banco de dados SQLite
-        db_path = os.getenv("DB_PATH", "senhas.db")  # caminho do BD vindo da variável de ambiente
-        self.conn = sqlite3.connect(db_path)
+        db_path = os.getenv("DB_PATH", "senhas.db")  # Caminho do BD vindo da variável de ambiente
+        self.conn = sqlite3.connect(db_path, check_same_thread=False)
         self.cursor = self.conn.cursor()
         self.criar_tabela()
 
@@ -36,7 +36,7 @@ class PassGen:
         self.conn.commit()
 
     def gerar_senha(self, base, total_chars):
-        if base:  
+        if base:
             # Utiliza o mapeamento para substituir caracteres
             senha = "".join(self.char_map.get(letra, letra) for letra in base)
         else:
@@ -63,19 +63,19 @@ def nova_senha():
 
 @app.route('/gerar-senha', methods=['POST'])
 def gerar_senha():
-    base = request.form['base']
-    quantidade = int(request.form['quantidade'])
+    base = request.form.get('base', '').strip()
+    quantidade = int(request.form.get('quantidade', 10))
 
     senha = pass_gen.gerar_senha(base, quantidade)
 
-    # Exibir tela de sucesso com a senha gerada
-    return render_template('sucesso.html', senha=senha)
+    # Após gerar a senha, redirecionar para a tela de listagem
+    return redirect(url_for('listar_senhas'))
 
 @app.route('/listar-senhas')
 def listar_senhas():
-    pass_gen.cursor.execute("SELECT * FROM senhas")
+    pass_gen.cursor.execute("SELECT * FROM senhas ORDER BY id DESC")
     registros = pass_gen.cursor.fetchall()
-    return render_template('listar-senhas.html', registros=registros)
+    return render_template('listagem-senhas.html', registros=registros)
 
 if __name__ == '__main__':
     app.run(debug=True)
