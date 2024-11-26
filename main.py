@@ -109,8 +109,9 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
 
 @app.post("/senhas/", response_model=SenhaBase)
 def criar_senha(senha_data: SenhaCreate, current_user: str = Depends(get_current_user)):
+    # Verifica se a requisição é um JSON válido
     if not isinstance(senha_data, SenhaCreate):
-        raise HTTPException(status_code=400, detail="Dados inválidos. Verifique o formato JSON.")
+        raise HTTPException(status_code=400, detail="Input should be a valid dictionary or object to extract fields from.")
     
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -138,6 +139,7 @@ def criar_senha(senha_data: SenhaCreate, current_user: str = Depends(get_current
     conn.close()
 
     return SenhaBase(id=senha_id, nome=senha_data.nome, senha=senha, base=base, data_criacao=data_criacao)
+
 
 @app.get("/senhas/", response_model=List[SenhaBase])
 def listar_senhas(current_user: str = Depends(get_current_user)):
