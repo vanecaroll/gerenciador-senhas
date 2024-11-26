@@ -11,7 +11,6 @@ from typing import List, Optional
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 
-
 # Configurações do JWT
 load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -20,15 +19,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Inicialização da FastAPI
 app = FastAPI()
-
-# Adicione o CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Permitir qualquer origem
-    allow_credentials=True,
-    allow_methods=["*"],  # Permitir todos os métodos HTTP
-    allow_headers=["*"],  # Permitir todos os cabeçalhos
-)
 
 # Segurança e hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -119,6 +109,9 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
 
 @app.post("/senhas/", response_model=SenhaBase)
 def criar_senha(senha_data: SenhaCreate, current_user: str = Depends(get_current_user)):
+    if not isinstance(senha_data, SenhaCreate):
+        raise HTTPException(status_code=400, detail="Dados inválidos. Verifique o formato JSON.")
+    
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -140,9 +133,11 @@ def criar_senha(senha_data: SenhaCreate, current_user: str = Depends(get_current
     cursor.execute("INSERT INTO senhas (nome, senha, base, data_criacao, usuario) VALUES (?, ?, ?, ?, ?)",
                    (senha_data.nome, senha, base, data_criacao, current_user))
     conn.commit()
+
+    senha_id = cursor.lastrowid
     conn.close()
 
-    return SenhaBase(id=cursor.lastrowid, nome=senha_data.nome, senha=senha, base=base, data_criacao=data_criacao)
+    return SenhaBase(id=senha_id, nome=senha_data.nome, senha=senha, base=base, data_criacao=data_criacao)
 
 @app.get("/senhas/", response_model=List[SenhaBase])
 def listar_senhas(current_user: str = Depends(get_current_user)):
@@ -188,4 +183,3 @@ def apagar_todas_senhas(current_user: str = Depends(get_current_user)):
     conn.commit()
     conn.close()
     return {"message": "Todas as senhas foram apagadas."}
-
