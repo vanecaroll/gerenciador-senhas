@@ -182,3 +182,5 @@ def apagar_todas_senhas(current_user: str = Depends(get_current_user)):
     conn.commit()
     conn.close()
     return {"message": "Todas as senhas foram apagadas."}
+
+#API finalizada
