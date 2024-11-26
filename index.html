@@ -27,14 +27,6 @@
             text-align: center;
         }
 
-        .logo-space {
-            display: flex;
-            justify-content: flex-start;
-            margin-bottom: 10px;
-            margin-right: 10px;
-            margin-left: 16px;
-        }
-
         .logo-space img {
             width: 400px;
             height: auto;
@@ -93,46 +85,6 @@
             background: linear-gradient(135deg, #a29bfe, #6c5ce7);
         }
 
-        a {
-            color: #6c5ce7;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        a:hover {
-            color: #4b63e6;
-        }
-
-        .cadastro-btn {
-            background: #ffffff;
-            border: 1px solid transparent;
-            border-radius: 6px;
-            padding: 12px 20px;
-            font-weight: normal;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.3s, color 0.3s, border 0.3s;
-            font-size: 16px;
-            color: #6c5ce7;
-        }
-
-        .cadastro-btn:hover {
-            background: #ffffff;
-            color: #ffffff;
-            border: 1px solid transparent;
-            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
-        }
-
-        .cadastro-btn a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .form-group, button {
-            margin-bottom: 15px;
-        }
-
-        /* Estilos para a mensagem de erro */
         .message {
             font-size: 16px;
             margin-top: 20px;
@@ -142,7 +94,6 @@
         .error {
             color: red;
         }
-
     </style>
 </head>
 <body>
@@ -164,30 +115,57 @@
     
     <!-- Mensagem de erro -->
     <div id="message" class="message"></div>
-
-    <p style="text-align: center; margin-top: 10px;">
-        <a href="recuperacao-senha.html">Esqueceu sua senha?</a>
-    </p>
-    <button class="cadastro-btn"><a href="cadastro.html">Cadastre-se</a></button>
 </div>
 
 <script>
-    function entrar() {
-        // Obtendo os valores dos campos
+    const API_BASE_URL = "https://gerenciador-senhas.onrender.com"; // URL da sua API
+
+    async function entrar() {
         const email = document.getElementById('email').value;
         const senha = document.getElementById('senha').value;
         const messageDiv = document.getElementById('message');
 
-        // Verificando se todos os campos foram preenchidos
+        // Limpa mensagens anteriores
+        messageDiv.style.display = "none";
+
         if (!email || !senha) {
             messageDiv.textContent = "Por favor, preencha todos os campos!";
-            messageDiv.className = "message error"; // Aplica a classe de erro
+            messageDiv.className = "message error";
             messageDiv.style.display = "block";
             return;
         }
 
-        // Se os dados estiverem corretos, redireciona para a página de listagem de senhas
-        window.location.href = 'listagem-senhas.html';
+        try {
+            const response = await fetch(`${API_BASE_URL}/token`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new URLSearchParams({
+                    username: email, // Mapeado como "username" na API
+                    password: senha,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || "Erro ao fazer login");
+            }
+
+            const data = await response.json();
+            const token = data.access_token;
+
+            // Salvar o token no localStorage
+            localStorage.setItem("authToken", token);
+
+            // Redirecionar para a página de listagem de senhas
+            window.location.href = "listagem-senhas.html";
+        } catch (error) {
+            console.error(error);
+            messageDiv.textContent = `Erro ao fazer login: ${error.message}`;
+            messageDiv.className = "message error";
+            messageDiv.style.display = "block";
+        }
     }
 </script>
 

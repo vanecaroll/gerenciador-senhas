@@ -9,12 +9,6 @@ import jwt
 from pydantic import BaseModel
 from typing import List, Optional
 from dotenv import load_dotenv
-from flask import Flask
-from flask_cors import CORS
-
-app = Flask(__name__)
-CORS(app)  # Habilita CORS para todas as rotas
-
 
 # Configurações do JWT
 load_dotenv()
@@ -24,11 +18,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Inicialização da FastAPI
 app = FastAPI()
-
-# Inicializar servidor
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
 
 # Segurança e hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -189,4 +178,3 @@ def apagar_todas_senhas(current_user: str = Depends(get_current_user)):
     conn.close()
     return {"message": "Todas as senhas foram apagadas."}
 
-#API finalizada
