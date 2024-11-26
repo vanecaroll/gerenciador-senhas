@@ -9,6 +9,12 @@ import jwt
 from pydantic import BaseModel
 from typing import List, Optional
 from dotenv import load_dotenv
+from flask import Flask
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)  # Habilita CORS para todas as rotas
+
 
 # Configurações do JWT
 load_dotenv()
