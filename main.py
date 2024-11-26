@@ -19,6 +19,11 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 # Inicialização da FastAPI
 app = FastAPI()
 
+# Inicializar servidor
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
+
 # Segurança e hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
