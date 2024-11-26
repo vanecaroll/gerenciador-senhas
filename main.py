@@ -9,6 +9,8 @@ import jwt
 from pydantic import BaseModel
 from typing import List, Optional
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
+
 
 # Configurações do JWT
 load_dotenv()
@@ -18,6 +20,15 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Inicialização da FastAPI
 app = FastAPI()
+
+# Adicione o CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permitir qualquer origem
+    allow_credentials=True,
+    allow_methods=["*"],  # Permitir todos os métodos HTTP
+    allow_headers=["*"],  # Permitir todos os cabeçalhos
+)
 
 # Segurança e hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
